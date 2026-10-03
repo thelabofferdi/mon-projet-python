@@ -9,18 +9,18 @@ async def main():
     etape = "chat"
     while True:
         if etape == "chat":
-            q = input(" Quels sont les specs du google pixel 9 pro xl : ")
+            q = input("Votre question : ")
             r = await client.chat([{"role": "user", "content": q}])
             print(r.choices[0].message.content)
             print("Coût :", r.cost_rodi, "RODI")
         elif etape == "image":
-            desc = input("Dessine au crayon à huile un geek avec un pc portable sur un mangier de mangue rouge  : ")
+            desc = input("Décrivez l'image : ")
             img = await client.images(model="openai/gpt-image-1", prompt=desc)
             with open("image.png", "wb") as f:
                 f.write(base64.b64decode(img.data[0].b64_json))
             print("Image enregistrée : image.png")
         else:
-            desc = input(" un geek qui dessine un pommier au pomme noir : ")
+            desc = input("Décrivez la vidéo : ")
             vid = await client.videos(model="google/veo-3.1-generate-preview",
                                       prompt=desc, duration_seconds=4, timeout=600)
             data = vid.data[0]
