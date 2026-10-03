@@ -1,23 +1,26 @@
 import asyncio, base64
 from rodiumai import RodiumAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 async def main():
     client = RodiumAI()  # lit RODIUMAI_API_KEY depuis .env
     etape = "chat"
     while True:
         if etape == "chat":
-            q = input("Votre question : ")
+            q = input(" Quels sont les specs du google pixel 9 pro xl : ")
             r = await client.chat([{"role": "user", "content": q}])
             print(r.choices[0].message.content)
             print("Coût :", r.cost_rodi, "RODI")
         elif etape == "image":
-            desc = input("Décrivez l'image : ")
+            desc = input("Dessine au crayon à huile un geek avec un pc portable sur un mangier de mangue rouge  : ")
             img = await client.images(model="openai/gpt-image-1", prompt=desc)
             with open("image.png", "wb") as f:
                 f.write(base64.b64decode(img.data[0].b64_json))
             print("Image enregistrée : image.png")
         else:
-            desc = input("Décrivez la vidéo : ")
+            desc = input(" un geek qui dessine un pommier au pomme noir : ")
             vid = await client.videos(model="google/veo-3.1-generate-preview",
                                       prompt=desc, duration_seconds=4, timeout=600)
             data = vid.data[0]
